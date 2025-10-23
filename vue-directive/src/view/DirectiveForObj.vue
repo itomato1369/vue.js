@@ -21,11 +21,13 @@
         </tr>
       </tbody>
     </table>
+    
   </main>
 </template>
 <script setup>
 import { ref, reactive } from "vue";
 //
+// reactive: 객체나 배열을 반응형으로 만듭니다. 주로 복잡하거나 구조적인 데이터를 다룰 때 사용됩니다.
 // Data
 const friends = reactive([
   { name: "Nissan", age: 20 },
