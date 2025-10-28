@@ -8,22 +8,33 @@ import PostList from "@/components/PostList.vue";
 // data
 const posts = ref([]);
 
-// Event hook...
-onMounted(async () => {
-  // 초기 데이터 로드
-  const result = await axios.get("http://localhost:3000/boards");
-  // result 배열의 값
-  console.log(result.data);
-  posts.value = result.data;
-});
-
 // function
-// 등록
-const addPost = async (newPost) => {
-  // 새로운 게시물 추가
-  const result = await axios.post("http://localhost:3000/board", newPost);
-  posts.value.push({ ...newPost, id: result.data.id });
+// 게시글 목록 불러오는 함수 분리
+const fetchPosts = async () => {
+  try {
+    const result = await axios.get("http://localhost:3000/boards");
+    posts.value = result.data;
+  } catch (err) {
+    console.error("게시글 로드 실패:", err.message);
+  }
 };
+
+// 등록 후 목록을 다시 불러오기
+const addPost = async (newPost) => {
+  try {
+    // 1. 새로운 게시물 등록
+    await axios.post("http://localhost:3000/board", newPost);
+    // 2. 등록 성공후 DB에서 최신 목록 전체 불러오기
+    await fetchPosts();
+  } catch (err) {
+    console.error("게시글 등록 실패:", err.message);
+  }
+};
+
+// Event hook
+onMounted(() => {
+  fetchPosts();
+});
 
 // provide...
 provide("addPost", addPost);

@@ -1,6 +1,7 @@
 <script setup>
 // import
 import { ref, inject } from "vue";
+import { useRouter } from "vue-router";
 
 // data
 const title = ref("");
@@ -9,6 +10,7 @@ const writer = ref("");
 
 // inject...
 const addPost = inject("addPost");
+const router = useRouter();
 
 // function
 const addPostHandler = async () => {
@@ -27,6 +29,7 @@ const addPostHandler = async () => {
   title.value = "";
   content.value = "";
   writer.value = "";
+  router.push({ name: "HomeView" });
 };
 </script>
 <template>
@@ -49,7 +52,7 @@ const addPostHandler = async () => {
         <label for="writer">Writer</label>
         <input type="text" id="writer" name="writer" v-model="writer" />
       </div>
-      <button type="submit">Submit</button>
+      <button type="submit">SUBMIT</button>
     </form>
   </main>
 </template>
