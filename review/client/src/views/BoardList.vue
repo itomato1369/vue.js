@@ -51,7 +51,7 @@ const getBoardList = async () => {
   let result = await axios.get(`/api/boards`).catch((err) => console.log(err));
   boardList.value = result.data;
 };
-// tr 클릭
+// tr 클릭 상세화면 페이지로 이동
 const goToBoardInfo = (bno) => {
   router.push({ name: "boardInfo", query: { no: bno } });
 };

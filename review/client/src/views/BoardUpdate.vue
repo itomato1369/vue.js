@@ -22,6 +22,26 @@
 </template>
 
 <script setup>
+// ----import----
 import BoardForm from "@/components/BoardForm.vue";
 import dateFormat from "@/utils/dateFormat";
+import { useRoute } from "vue-router";
+import { ref, onBeforeMount } from "vue";
+import axios from "axios";
+
+const route = useRoute();
+
+let boardUpdate = ref([]);
+const getBoardUpdate = async (bno) => {
+  // boardInfo의 값을 그대로 가져와서 일단 필드에 입력
+  let result = await axios.get(`/api/boards/${bno}`).catch((err) => console.log(err));
+  boardUpdate.value = result.data;
+};
+
+onBeforeMount(() => {
+  const boardNo = route.query.no;
+  getBoardUpdate(boardNo);
+});
+
+//const modifyBoard = //  DB UPDATE
 </script>
